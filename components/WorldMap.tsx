@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 // Country mapping object
 const COUNTRY_CODES: { [key: string]: string } = {
@@ -179,52 +179,96 @@ const COUNTRY_CODES: { [key: string]: string } = {
   ye: "Yemen",
   za: "South Africa",
   zm: "Zambia",
-  zw: "Zimbabwe"
+  zw: "Zimbabwe",
 };
 
 const WorldMap = () => {
-  const [tooltip, setTooltip] = useState({ show: false, text: '', x: 0, y: 0 });
-  const [selectedImage, setSelectedImage] = useState({ show: false, country: '' });
+  const [tooltip, setTooltip] = useState({ show: false, text: "", x: 0, y: 0 });
+  const [selectedImage, setSelectedImage] = useState({
+    show: false,
+    country: "",
+  });
 
   useEffect(() => {
-    fetch('/world-map.svg')
-      .then(response => response.text())
-      .then(svgContent => {
-        const mapContainer = document.getElementById('map-container');
+    fetch("/world-map.svg")
+      .then((response) => response.text())
+      .then((svgContent) => {
+        const mapContainer = document.getElementById("map-container");
         if (mapContainer) {
           mapContainer.innerHTML = svgContent;
-          
-          const allPaths = mapContainer.querySelectorAll('path, g');
-          allPaths.forEach(element => {
-            element.style.fill = '#ECEFF1';
-            element.style.stroke = '#607D8B';
-            element.style.strokeWidth = '0.5';
-            element.style.transition = 'fill 0.2s';
 
-            element.addEventListener('mousemove', (e) => {
-              const id = element.id || '';
+          // Get both paths and groups
+          const allElements = mapContainer.querySelectorAll("path, g");
+
+          allElements.forEach((element) => {
+            // Apply styles to both the element and its children
+            const applyStyles = (el: Element) => {
+              if (el instanceof SVGElement) {
+                el.style.fill = "#ECEFF1";
+                el.style.stroke = "#607D8B";
+                el.style.strokeWidth = "0.5";
+                el.style.transition = "fill 0.2s";
+                el.style.cursor = "pointer"; // Add cursor pointer
+              }
+            };
+
+            applyStyles(element);
+            if (element instanceof SVGGElement) {
+              element.querySelectorAll("path").forEach(applyStyles);
+            }
+
+            const handleMouseMove = (e: MouseEvent) => {
+              const id = element.id || "";
+              console.log("Hover ID:", id); // Debug log
+
               const countryName = COUNTRY_CODES[id];
-              
+              console.log("Country Name:", countryName); // Debug log
+
               if (countryName) {
+                // Apply hover style to both the element and its children
+                const applyHoverStyle = (el: Element) => {
+                  if (el instanceof SVGElement) {
+                    el.style.fill = "#D0D9DC";
+                  }
+                };
+
+                applyHoverStyle(element);
+                if (element instanceof SVGGElement) {
+                  element.querySelectorAll("path").forEach(applyHoverStyle);
+                }
+
                 setTooltip({
                   show: true,
                   text: countryName,
                   x: e.clientX,
-                  y: e.clientY
+                  y: e.clientY,
                 });
                 setSelectedImage({
                   show: true,
-                  country: countryName
+                  country: countryName,
                 });
-                element.style.fill = '#D0D9DC';
               }
-            });
+            };
 
-            element.addEventListener('mouseleave', () => {
-              setTooltip({ show: false, text: '', x: 0, y: 0 });
-              setSelectedImage({ show: false, country: '' });
-              element.style.fill = '#ECEFF1';
-            });
+            const handleMouseLeave = () => {
+              // Reset style for both the element and its children
+              const resetStyle = (el: Element) => {
+                if (el instanceof SVGElement) {
+                  el.style.fill = "#ECEFF1";
+                }
+              };
+
+              resetStyle(element);
+              if (element instanceof SVGGElement) {
+                element.querySelectorAll("path").forEach(resetStyle);
+              }
+
+              setTooltip({ show: false, text: "", x: 0, y: 0 });
+              setSelectedImage({ show: false, country: "" });
+            };
+
+            element.addEventListener("mousemove", handleMouseMove);
+            element.addEventListener("mouseleave", handleMouseLeave);
           });
         }
       });
@@ -233,8 +277,8 @@ const WorldMap = () => {
   return (
     <div className="flex">
       <div className="relative flex-1">
-        <div 
-          id="map-container" 
+        <div
+          id="map-container"
           className="w-full h-screen flex items-center justify-center"
         />
         {tooltip.show && (
@@ -243,7 +287,7 @@ const WorldMap = () => {
             style={{
               left: `${tooltip.x + 10}px`,
               top: `${tooltip.y - 20}px`,
-              transform: 'translate(-50%, -100%)'
+              transform: "translate(-50%, -100%)",
             }}
           >
             {tooltip.text}
@@ -255,12 +299,15 @@ const WorldMap = () => {
         {selectedImage.show && (
           <div className="p-4">
             <Image
-              src={`/generated_images/${selectedImage.country.replace(/\s+/g, '_')}.jpg`}
+              src={`/generated_images/${selectedImage.country.replace(
+                /\s+/g,
+                "_"
+              )}.jpg`}
               alt={`Woman from ${selectedImage.country}`}
               width={400}
               height={400}
               className="rounded-lg shadow-lg"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: "cover" }}
               priority
             />
             <p className="text-center mt-2 text-gray-700">
