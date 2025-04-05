@@ -277,17 +277,17 @@ const WorldMap = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
-      <header className="w-full py-6 px-4 text-center bg-white/80 dark:bg-black/80 backdrop-blur-sm fixed top-0 z-50">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text">
+      <header className="w-full py-4 sm:py-6 md:py-8 px-4 text-center bg-white/80 dark:bg-black/80 backdrop-blur-sm fixed top-0 z-50">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text tracking-tight">
           WorldWomanMap
         </h1>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mt-1 sm:mt-2 md:mt-3 max-w-2xl mx-auto">
           Discover women from around the world
         </p>
       </header>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row pt-24">
+      <div className="flex flex-col lg:flex-row pt-20 sm:pt-24 md:pt-28 lg:pt-32">
         {/* Map Container */}
         <div className="relative flex-1 min-h-[60vh] lg:min-h-screen">
           <div
@@ -312,7 +312,7 @@ const WorldMap = () => {
         <div className="w-full lg:w-1/3 min-h-[40vh] lg:min-h-screen bg-white dark:bg-gray-800 shadow-xl">
           {selectedImage.show ? (
             <div className="p-6 h-full flex flex-col items-center justify-center">
-              <div className="relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="w-full max-w-md aspect-[3/4] relative rounded-2xl overflow-hidden shadow-2xl">
                 <Image
                   src={`/generated_images/${selectedImage.country.replace(
                     /\s+/g,
@@ -324,12 +324,11 @@ const WorldMap = () => {
                   priority
                 />
               </div>
-              <h2 className="mt-6 text-2xl font-semibold text-gray-800 dark:text-white">
-                Woman from {selectedImage.country}
-              </h2>
-              <p className="mt-2 text-gray-600 dark:text-gray-300">
-                Click on different countries to explore more
-              </p>
+              <div className="w-full text-center mt-6">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                  Woman from {selectedImage.country}
+                </h2>
+              </div>
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center p-6 text-center">

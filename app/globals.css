@@ -145,3 +145,32 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Add smooth transitions for responsive changes */
+h1,
+p {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Optional: Add text shadow for better readability */
+.gradient-text {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional: Add a subtle animation to the gradient */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-to-r {
+  background-size: 200% auto;
+  animation: gradient 8s ease infinite;
+}
