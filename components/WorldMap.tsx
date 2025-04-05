@@ -334,6 +334,7 @@ const WorldMap = () => {
           ) : (
             <div className="h-full flex flex-col items-center justify-center p-6 text-center">
               <div className="text-gray-400 dark:text-gray-500">
+                {/* Simple Globe Icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-16 w-16 mx-auto mb-4"
@@ -344,13 +345,13 @@ const WorldMap = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
+                    strokeWidth={1.5}
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
                 <h3 className="text-xl font-medium">Hover over a country</h3>
-                <p className="mt-2">
-                  Explore women from different cultures around the world
+                <p className="mt-2 text-gray-500">
+                  Discover women from around the world
                 </p>
               </div>
             </div>
