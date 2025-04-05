@@ -275,46 +275,87 @@ const WorldMap = () => {
   }, []);
 
   return (
-    <div className="flex">
-      <div className="relative flex-1">
-        <div
-          id="map-container"
-          className="w-full h-screen flex items-center justify-center"
-        />
-        {tooltip.show && (
-          <div
-            className="absolute z-10 bg-black text-white px-2 py-1 rounded text-sm pointer-events-none"
-            style={{
-              left: `${tooltip.x + 10}px`,
-              top: `${tooltip.y - 20}px`,
-              transform: "translate(-50%, -100%)",
-            }}
-          >
-            {tooltip.text}
-          </div>
-        )}
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      {/* Header */}
+      <header className="w-full py-6 px-4 text-center bg-white/80 dark:bg-black/80 backdrop-blur-sm fixed top-0 z-50">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text">
+          WorldWomanMap
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Discover women from around the world
+        </p>
+      </header>
 
-      <div className="w-1/3 h-screen flex items-center justify-center bg-gray-100">
-        {selectedImage.show && (
-          <div className="p-4">
-            <Image
-              src={`/generated_images/${selectedImage.country.replace(
-                /\s+/g,
-                "_"
-              )}.jpg`}
-              alt={`Woman from ${selectedImage.country}`}
-              width={400}
-              height={400}
-              className="rounded-lg shadow-lg"
-              style={{ objectFit: "cover" }}
-              priority
-            />
-            <p className="text-center mt-2 text-gray-700">
-              Woman from {selectedImage.country}
-            </p>
-          </div>
-        )}
+      {/* Main Content */}
+      <div className="flex flex-col lg:flex-row pt-24">
+        {/* Map Container */}
+        <div className="relative flex-1 min-h-[60vh] lg:min-h-screen">
+          <div
+            id="map-container"
+            className="w-full h-full flex items-center justify-center p-4"
+          />
+          {tooltip.show && (
+            <div
+              className="absolute z-10 bg-black/80 text-white px-3 py-2 rounded-lg text-sm pointer-events-none backdrop-blur-sm"
+              style={{
+                left: `${tooltip.x + 10}px`,
+                top: `${tooltip.y - 20}px`,
+                transform: "translate(-50%, -100%)",
+              }}
+            >
+              {tooltip.text}
+            </div>
+          )}
+        </div>
+
+        {/* Image Container */}
+        <div className="w-full lg:w-1/3 min-h-[40vh] lg:min-h-screen bg-white dark:bg-gray-800 shadow-xl">
+          {selectedImage.show ? (
+            <div className="p-6 h-full flex flex-col items-center justify-center">
+              <div className="relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src={`/generated_images/${selectedImage.country.replace(
+                    /\s+/g,
+                    "_"
+                  )}.jpg`}
+                  alt={`Woman from ${selectedImage.country}`}
+                  fill
+                  className="object-cover transition-transform hover:scale-105 duration-500"
+                  priority
+                />
+              </div>
+              <h2 className="mt-6 text-2xl font-semibold text-gray-800 dark:text-white">
+                Woman from {selectedImage.country}
+              </h2>
+              <p className="mt-2 text-gray-600 dark:text-gray-300">
+                Click on different countries to explore more
+              </p>
+            </div>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center p-6 text-center">
+              <div className="text-gray-400 dark:text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-16 w-16 mx-auto mb-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
+                  />
+                </svg>
+                <h3 className="text-xl font-medium">Hover over a country</h3>
+                <p className="mt-2">
+                  Explore women from different cultures around the world
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
