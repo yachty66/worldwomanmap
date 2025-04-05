@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PH7HF20G7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5PH7HF20G7');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="hyperamerica.png" type="image/x-icon" />
+    <style>
+        #map-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        #map-container svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .attribution {
+            font-size: 12px;
+            color: #666;
+            font-family: arial, sans-serif;
+            margin-top: 10px;
+        }
+
+        .attribution a {
+            color: #0393fb;
+            text-decoration: none;
+        }
+
+        .attribution a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div style="max-width: 600px; font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px;">
+        Here's a visualization of all the countries I've visited (blue). I hereby officially join the "Explore the Entire Earth" competition.
+    </div>
+    
+    <div id="map-container"></div>
+    <div class="attribution">
+        The SVG template I used is from <a href="https://github.com/flekschas/simple-world-map" target="_blank">Simple World Map</a>
+    </div>
+
+    <script>
+        fetch('world-map.svg')
+            .then(response => response.text())
+            .then(svgContent => {
+                document.getElementById('map-container').innerHTML = svgContent;
+                
+                const allPaths = document.querySelectorAll('#world-map path');
+                allPaths.forEach(path => {
+                    path.style.fill = 'white';
+                    path.style.stroke = '#666';
+                    path.style.strokeWidth = '0.5';
+                });
+
+                const visitedCountries = [
+                    "at", "be", "hr", "cz", "do", "fi", "fr", "de", 
+                    "gr", "hu", "it", "jp", "lu", "my", "pt", "kr", 
+                    "ch", "th", "gb", "us", "bs", "pr", "es", "sg", "cn", "vn", "ca"
+                ];
+
+                visitedCountries.forEach(countryCode => {
+                    const countryElement = document.querySelector(`#${countryCode}`);
+                    if (countryElement) {
+                        const colorElement = (element) => {
+                            element.style.fill = '#0393fb';
+                            element.style.transition = 'fill 0.3s ease';
+                        };
+
+                        if (countryElement.tagName.toLowerCase() === 'g') {
+                            countryElement.querySelectorAll('path').forEach(colorElement);
+                        } else {
+                            colorElement(countryElement);
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading SVG:', error));
+    </script>
+</body>
+</html>
